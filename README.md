@@ -47,3 +47,29 @@
 
 [Playbook](https://github.com/MrVanG0gh/Netology_ansible_04_role_playbook)
 
+`main.yml`
+```
+---
+- name: Install Clickhouse
+  hosts: clickhouse
+  roles:
+    - clickhouse
+
+- name: Install Vector
+  hosts: vector
+  become: true
+  roles:
+    - vector-role
+
+- name: Install Lighthouse
+  hosts: lighthouse
+
+  pre_tasks:
+    - name: lighthouse
+      become: true
+      ansible.builtin.yum:
+        name: git
+        state: present
+  roles:
+    - lighthouse-role
+```
